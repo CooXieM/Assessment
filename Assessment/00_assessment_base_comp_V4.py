@@ -1,6 +1,7 @@
 from random import randint
 import math
 import random
+from re import X
 
 #ask if the user has played the game before and print instructions.
 def statement_generator(statement, decoration):
@@ -29,7 +30,7 @@ def yes_no(question):
         else:
             print ('please answer yes / no') 
 print()
-statement_generator("Welcome to the basic facts game", "*")
+statement_generator("Welcome to the Multiplication Quiz", "*")
 print()
 
 #ask user if they have played before if not, print instructions
@@ -128,7 +129,7 @@ while rounds_played < rounds and end_game == "no":
         heading = "----- Question {} -----".format(rounds_played + 1)
     else: #start normal mode
         heading = "----- Question {} of {} ------".format(rounds_played + 1, rounds)
-    rounds_played += 1 
+    
 
     #printing heading
     print()
@@ -139,7 +140,7 @@ while rounds_played < rounds and end_game == "no":
     n2 = random.randint(low_num, high_num)
 
     #Print the question
-    print("{} * {} = ".format(n1, n2))
+    print("{} X {} = ".format(n1, n2))
     
     #Adding the feedback of how many questions answered for both infinite and normal modes. :)
     if mode == "infinite":
@@ -154,6 +155,7 @@ while rounds_played < rounds and end_game == "no":
         print()
         print("*****You got it*****")
         rounds_won =+ 1
+        rounds_played += 1 
 
     else:
         print()
@@ -161,12 +163,12 @@ while rounds_played < rounds and end_game == "no":
         print()
     if ans == (n1 * n2):
         ans += 1
+        rounds_played += 1 
     else:
         ans
     if ans == "xxx":
         break
-
-
+    
 print("---------------------")
 print()
 print("***Here are your results***")
@@ -175,11 +177,10 @@ print("***Here are your results***")
 rounds_lost = rounds_played - rounds_won
 
 # print basic, overall stats
-print("Stats * Basic *")
 print()
-print("Rounds Played: {}".format(rounds_played))
-print("Rounds won: {} ".format(rounds_won))
-print("Rounds lost: {}".format(rounds_lost))
+print("Questions Answered: {}".format(rounds_played))
+print("Questions Lost: {} ".format(rounds_won))
+print("Questions Won: {}".format(rounds_lost))
 
 
 #thank user for playing

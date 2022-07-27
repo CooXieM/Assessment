@@ -1,3 +1,8 @@
+import random
+
+low_num = 1
+high_num = 10
+
 def intcheck(question, low=None, high=None, exit_code = None):
 
     while True:
@@ -39,23 +44,25 @@ def intcheck(question, low=None, high=None, exit_code = None):
         except ValueError:
             print(error)
             continue
-Question = 0
-mode = "regular"
 
-rounds = intcheck("Rounds:", 1, exit_code = "")
-if rounds == "":
-    print(" you chose infinite mode")
-    mode = "infinite"
-    rounds = 10
 
-# rounds loop starts here
-end_game = "no"
-while Question < rounds and end_game == "no":
 
-    if mode == "infinite":
-        rounds += 1
-        heading = "----- Round {} -----".format(Question + 1)
+for item in range(0,3):
+
+    #Randomly generated number set between the chosen veriables.
+    n1 = random.randint(low_num, high_num)
+    n2 = random.randint(low_num, high_num)
+
+    #Print the question
+    print("{} * {} = ".format(n1, n2))
+
+    ans = intcheck("Answer: ")
+    if ans == (n1 * n2):
+        print()
+        print("*****You got it*****")
+        print()
+
     else:
-        heading = "----- Round {} of {} ------".format(Question + 1, rounds)
-    print()
-    print(heading)
+        print()
+        print("?????Incorrect?????")
+        print()

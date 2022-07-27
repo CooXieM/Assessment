@@ -27,7 +27,6 @@ def yes_no(question):
 
 
 def instructions() :
-    print("\033[1;32;40m Bright Green")
     print()
     print('**** How To Play ****')
     print("""

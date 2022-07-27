@@ -1,3 +1,4 @@
+import math
 #ask if the user has played the game before and print instructions.
 def statement_generator(statement, decoration):
     
@@ -29,9 +30,10 @@ def instructions() :
     print()
     print('**** How To Play ****')
     print("""
-    Welcome to the basic facts true or false game, to play you will be asked a question, you must answer
-    with true or false. At the end of the game your results will be displayed. You are also allowed to pick how
-    many rounds you want""")
+    Welcome to the Basic Facts game, to play you will be asked a low and high number and you will be told
+    how many guesses you are allowed. Then you are to state how many rounds you want or press <Enter> for infinite
+    mode. The game is simple, you will be asked a question reguarding Addition, Multiplication, Subtraction and Division.
+    At the end of the game you will have your score shown... Goodluck player.""")
     print()
     return ''
 print()
@@ -42,23 +44,8 @@ played_before = yes_no('have you played the game before? ')
 
 if played_before =='no':
     instructions()
-# Functions used to check input is valid
-def check_rounds():
-    while True:
-        response = input("How many rounds (Press <Enter> For Infinite Mode): ")
 
-        round_error = "please type either <enter> (For infinite mode) or an interger that is more than 0"
-        if response != "":
-            try:
-                response = int(response)
-                if response <1:
-                    print(round_error)
-                    continue
-            except ValueError:
-                print(round_error)
-                continue
-        return response
-        
+# Functions used to check input is valid        
 def intcheck(question, low=None, high=None, exit_code = None):
 
     while True:
@@ -100,18 +87,29 @@ def intcheck(question, low=None, high=None, exit_code = None):
         except ValueError:
             print(error)
             continue
+
+#rounds generator
 rounds_played = 0
 mode = "regular"
 
+guess_history = []
+game_history = []
+
 low = intcheck("Low Number: ")
 high = intcheck("High Number :", low + 1)
-# main routine goes here
-rounds = check_rounds()
+
+range = high - low + 1
+max_raw = math.log2(range)  #finds maximum # of guesses using
+max_upped = math.ceil(max_raw)  #rounds up ( ceil -> ceiling)
+max_guesses = max_upped + 1
+
+print("Max Guesses: {}".format(max_guesses))
+
+#infinite mode
+rounds = intcheck("Rounds:", 1, exit_code = "")
 if rounds == "":
     mode = "infinite"
     rounds = 10
-# ask user for # of rounds, <enter> for infinite mode
-
 
 end_game = "no"
 while rounds_played < rounds and end_game == "no":
@@ -134,7 +132,8 @@ while rounds_played < rounds and end_game == "no":
     # ***** rest of loop / game *****
     print("Your Answer {}".format(choose))
 
-    rounds_played +=1
+    
+
 print()
 print("Thank You For Playing")
 print()

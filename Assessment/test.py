@@ -42,6 +42,8 @@ played_before = yes_no('have you played the game before? ')
 
 if played_before =='no':
     instructions()
+else:
+    print("Program Continues")
 # Functions used to check input is valid
 def check_rounds():
     while True:
@@ -58,7 +60,6 @@ def check_rounds():
                 print(round_error)
                 continue
         return response
-        
 def intcheck(question, low=None, high=None, exit_code = None):
 
     while True:
@@ -106,12 +107,12 @@ mode = "regular"
 low = intcheck("Low Number: ")
 high = intcheck("High Number :", low + 1)
 # main routine goes here
-rounds = check_rounds()
+rounds = intcheck("Rounds:", 1, exit_code = "")
 if rounds == "":
     mode = "infinite"
     rounds = 10
 # ask user for # of rounds, <enter> for infinite mode
-
+rounds = check_rounds()
 
 end_game = "no"
 while rounds_played < rounds and end_game == "no":

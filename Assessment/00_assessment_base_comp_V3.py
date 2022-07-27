@@ -1,3 +1,6 @@
+from random import randint
+import math
+import random
 #ask if the user has played the game before and print instructions.
 def statement_generator(statement, decoration):
     
@@ -29,9 +32,10 @@ def instructions() :
     print()
     print('**** How To Play ****')
     print("""
-    Welcome to the basic facts true or false game, to play you will be asked a question, you must answer
-    with true or false. At the end of the game your results will be displayed. You are also allowed to pick how
-    many rounds you want""")
+    Welcome to the Basic Facts game, to play you will be asked a low and high number and you will be told
+    how many guesses you are allowed. Then you are to state how many rounds you want or press <Enter> for infinite
+    mode. The game is simple, you will be asked a question reguarding Addition, Multiplication, Subtraction and Division.
+    At the end of the game you will have your score shown... Goodluck player.""")
     print()
     return ''
 print()
@@ -42,23 +46,8 @@ played_before = yes_no('have you played the game before? ')
 
 if played_before =='no':
     instructions()
-# Functions used to check input is valid
-def check_rounds():
-    while True:
-        response = input("How many rounds (Press <Enter> For Infinite Mode): ")
 
-        round_error = "please type either <enter> (For infinite mode) or an interger that is more than 0"
-        if response != "":
-            try:
-                response = int(response)
-                if response <1:
-                    print(round_error)
-                    continue
-            except ValueError:
-                print(round_error)
-                continue
-        return response
-        
+# Functions used to check input is valid        
 def intcheck(question, low=None, high=None, exit_code = None):
 
     while True:
@@ -100,41 +89,79 @@ def intcheck(question, low=None, high=None, exit_code = None):
         except ValueError:
             print(error)
             continue
+
+#rounds generator
 rounds_played = 0
 mode = "regular"
 
-low = intcheck("Low Number: ")
-high = intcheck("High Number :", low + 1)
-# main routine goes here
-rounds = check_rounds()
+# game history
+guess_history = []
+game_history = []
+
+#Users lowest and highest numbers
+low_num = intcheck("Enter the lowest number ", low=0)
+high_num = intcheck("Enter the highest number ", low=low_num)
+
+range = high_num - low_num + 1
+max_raw = math.log2(range)  #finds maximum # of guesses using
+max_upped = math.ceil(max_raw)  #rounds up ( ceil -> ceiling)
+max_guesses = max_upped + 1
+
+print("Max Guesses: {}".format(max_guesses))
+
+#infinite mode
+rounds = intcheck("Rounds:", 1, exit_code = "")
 if rounds == "":
     mode = "infinite"
     rounds = 10
-# ask user for # of rounds, <enter> for infinite mode
 
-
+# rounds loop starts here
 end_game = "no"
 while rounds_played < rounds and end_game == "no":
-    #start of game play loop
-    #rounds heading
-    print()
-    if rounds == "":
-        heading = "continuous Mode: Round {}".format(rounds_played + 1)
-        
+
+    if mode == "infinite":
+        rounds += 1
+        heading = "----- Round {} -----".format(rounds_played + 1)
     else:
-        heading = "round {} of {}".format(rounds_played + 1, rounds)
-        
+        heading = "----- Round {} of {} ------".format(rounds_played + 1, rounds)
+
+    num_guesses = 0
+
+        #Randomly generated number set between the chosen veriables.
+    n1 = random.randint(low_num, high_num)
+    n2 = random.randint(low_num, high_num)
+
+    #Print the question
+    print("{} * {} = ".format(n1, n2))
+
+    ans = intcheck("Answer: ")
+    if ans == (n1 * n2):
+        print()
+        print("*****You got it*****")
+        print()
+
+    else:
+        print()
+        print("?????Incorrect?????")
+        print()
+    #Print the question
+
+    #printing heading
+    print()
     print(heading)
-    choose = input("Type xxx to end or press Enter to continue: ")
+    
+    rounds_played += 1
 
-    #end game if exit code is typed
-    if choose == "xxx":
-        break
 
-    # ***** rest of loop / game *****
-    print("Your Answer {}".format(choose))
 
-    rounds_played +=1
+#print history
+print()
+print("***Here are your results***")
+print()
+for item in game_history:
+    print(item)
+
+#thank user for playing
 print()
 print("Thank You For Playing")
 print()
